@@ -2,30 +2,51 @@ import streamlit as st
 import plotly.graph_objects as go
 from gru import get_predictions, train_and_save_model
 import os
+import random
 
 # Load custom CSS
 with open("neon.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+# Inject twinkling stars into the background
+stars_html = '<div id="stars">'
+for _ in range(50):
+    top = random.randint(1, 99)
+    left = random.randint(1, 99)
+    size = random.uniform(1.5, 2.5)
+    stars_html += f'<div class="star" style="top:{top}%; left:{left}%; width:{size}px; height:{size}px;"></div>'
+stars_html += '</div>'
+st.markdown(stars_html, unsafe_allow_html=True)
+
+# Hero section
+st.markdown("""
+<div class="hero">
+    <h1>✨ Welcome to KK's Stock Predictor ✨</h1>
+    <p>Use deep learning magic 🪄 to forecast tomorrow’s stock prices with our glowing GRU-powered wizardry.  
+    Choose a stock, view real predictions, and retrain whenever you want!</p>
+</div>
+""", unsafe_allow_html=True)
+
 st.markdown("<h1 class='title'>KK's Stock Predictor</h1>", unsafe_allow_html=True)
 
-tickers = ["RELIANCE", "TCS"]
+tickers = ["RELIANCE", "TCS", "COLPAL", "INFY", "PAGEIND", "ITC"]
 selected_stock = None
 
-st.markdown("<h3 class='subtitle'>💖 Tap a stock to reveal its magic 💖</h3>", unsafe_allow_html=True)
+st.markdown("<h3 class='subtitle'> ✦ Tap a stock to reveal its magic </h3>", unsafe_allow_html=True)
 
-cols = st.columns(len(tickers))
-for i, ticker in enumerate(tickers):
-    with cols[i]:
-        if st.button(f"{ticker}", key=f"select_{ticker}"):
-            selected_stock = ticker
+# Glowing buttons
+st.markdown('<div class="button-grid">', unsafe_allow_html=True)
+for ticker in tickers:
+    if st.button(f"{ticker}", key=f"select_{ticker}"):
+        selected_stock = ticker
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Guard clause
 if selected_stock is None:
     st.warning("👈 Click a stock card above to begin!")
     st.stop()
 
-# Optional: Show last trained time
+# Show last trained time
 txt_file = f"last_trained_{selected_stock}.txt"
 if os.path.exists(txt_file):
     with open(txt_file) as f:
@@ -34,10 +55,11 @@ if os.path.exists(txt_file):
 else:
     st.caption("🕓 Model has not been retrained yet.")
 
+# Run GRU model
 with st.spinner(f"Running GRU model for {selected_stock}..."):
     actual, predicted, rmse, r2, next_price = get_predictions(selected_stock)
 
-# Plot
+# Plot results
 st.markdown("### 📉 Test Set: Actual vs Predicted")
 fig = go.Figure()
 fig.add_trace(go.Scatter(y=actual, mode='lines', name='Actual'))
@@ -57,6 +79,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+# Retrain button
 if st.button("🔁 Retrain Model"):
     with st.spinner(f"Retraining {selected_stock} model..."):
         train_and_save_model(selected_stock)

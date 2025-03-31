@@ -1,25 +1,96 @@
-/* Background & Base Style */
 body {
     background-color: #0f0f1a;
     color: #ffffff;
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Title */
-.title {
-    font-size: 3rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #ff4b5c;
-    text-shadow: 0 0 10px #ff4b5c;
+/* Stars container */
+#stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
 }
 
-/* Subtitle */
+/* A single star */
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: twinkle 2s infinite ease-in-out alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.2; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    color: #00ffff;
+    margin-top: -20px;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    text-shadow: 0 0 6px #00ffff;
+}
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.2rem;
+    color: #cdc0c1;
+    text-shadow: 0 0 10px #ff4b5c;
+}
+.hero p {
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 500;
+}
+
+/* Title & Subtitle */
+.title {
+    font-size: 2.6rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #ff4b5c;
+    text-shadow: 0 0 10px #ff4b5c;
+    font-weight: 800;
+}
 .subtitle {
     text-align: center;
     font-size: 1.4rem;
     color: #ff85a2;
     margin-bottom: 2rem;
+}
+
+/* Button Grid */
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin: 2rem 0;
+}
+
+/* Stock Buttons */
+.stButton > button {
+    width: 100%;
+    height: 4rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #292946, #15151f);
+    color: #ffffff;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 10px #00ffff;
+    transition: all 0.3s ease;
+}
+.stButton > button:hover {
+    background-color: #112d4e;
+    box-shadow: 0 0 20px #00ffff, 0 0 35px #9c27b0;
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
 /* Prediction Card */
@@ -31,31 +102,7 @@ body {
     text-align: center;
     box-shadow: 0 0 15px #9c27b0;
 }
-
 .prediction-card h2 span {
     color: #00ffff;
     text-shadow: 0 0 5px #00ffff;
-}
-
-/* Glowing Stock Cards (styled buttons) */
-button {
-    width: 100%;
-    padding: 1.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 1.5rem;
-    background: linear-gradient(145deg, #1e1e3f, #0a0a1f);
-    color: #ffffff;
-    font-size: 1.3rem;
-    font-weight: bold;
-    border: 1px solid #00ffff;
-    border-radius: 16px;
-    box-shadow: 0 0 15px #00ffff;
-    transition: all 0.3s ease-in-out;
-    text-transform: uppercase;
-}
-
-button:hover {
-    background-color: #2f2f5f;
-    box-shadow: 0 0 25px #00ffff, 0 0 40px #9c27b0;
-    transform: scale(1.05);
 }
