@@ -30,7 +30,10 @@ st.markdown("""
 st.markdown("<h1 class='title'>KK's Stock Predictor</h1>", unsafe_allow_html=True)
 
 tickers = ["RELIANCE", "TCS", "COLPAL", "INFY", "PAGEIND", "ITC"]
-selected_stock = None
+
+# Initialize selected stock in session state
+if "selected_stock" not in st.session_state:
+    st.session_state.selected_stock = None
 
 st.markdown("<h3 class='subtitle'> ✦ Tap a stock to reveal its magic </h3>", unsafe_allow_html=True)
 
@@ -38,8 +41,10 @@ st.markdown("<h3 class='subtitle'> ✦ Tap a stock to reveal its magic </h3>", u
 st.markdown('<div class="button-grid">', unsafe_allow_html=True)
 for ticker in tickers:
     if st.button(f"{ticker}", key=f"select_{ticker}"):
-        selected_stock = ticker
+        st.session_state.selected_stock = ticker
 st.markdown('</div>', unsafe_allow_html=True)
+
+selected_stock = st.session_state.selected_stock
 
 # Guard clause
 if selected_stock is None:
@@ -54,6 +59,14 @@ if os.path.exists(txt_file):
     st.caption(f"🕓 Last retrained on: {last_time}")
 else:
     st.caption("🕓 Model has not been retrained yet.")
+
+# Retrain button (before predictions)
+retrained = False
+if st.button("🔁 Retrain Model"):
+    with st.spinner(f"Retraining {selected_stock} model..."):
+        train_and_save_model(selected_stock)
+    st.success(f"{selected_stock} model retrained and saved!")
+    retrained = True
 
 # Run GRU model
 with st.spinner(f"Running GRU model for {selected_stock}..."):
@@ -78,9 +91,3 @@ st.markdown(f"""
     <p>📊 RMSE: {rmse:.2f} | R² Score: {r2:.2f}</p>
 </div>
 """, unsafe_allow_html=True)
-
-# Retrain button
-if st.button("🔁 Retrain Model"):
-    with st.spinner(f"Retraining {selected_stock} model..."):
-        train_and_save_model(selected_stock)
-    st.success(f"{selected_stock} model retrained and saved!")

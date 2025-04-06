@@ -101,9 +101,10 @@ def preprocess_pipeline_for_gru(ticker):
     return df_scaled
 
 
-# preprocess_pipeline_for_gru("RELIANCE.NS")
-# preprocess_pipeline_for_gru("TCS.NS")
-# preprocess_pipeline_for_gru("PAGEIND.NS")
-# preprocess_pipeline_for_gru("INFY.NS")
-# preprocess_pipeline_for_gru("COLPAL.NS")
-preprocess_pipeline_for_gru("ITC.NS")
+#preprocess_pipeline_for_gru("RELIANCE.NS")
+preprocess_pipeline_for_gru("TCS.NS")
+
+#preprocess_pipeline_for_gru("PAGEIND.NS")
+#preprocess_pipeline_for_gru("INFY.NS")
+#preprocess_pipeline_for_gru("COLPAL.NS")
+#preprocess_pipeline_for_gru("ITC.NS")
